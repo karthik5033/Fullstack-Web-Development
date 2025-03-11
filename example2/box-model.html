@@ -33,7 +33,7 @@
         color: white;
         display: inline;
         text-decoration: none;
-        background-color: rgb(34, 41, 129);
+        /* background-color: rgb(34, 41, 129); */
         padding: 1px 1px 1px;
         position: relative;
       }
@@ -59,11 +59,33 @@
         left: 0px;
         background-color: rgb(247, 244, 243);
         transform: scaleX(0);
-        transition: transform 0.3s;
+        transition: transform 0.5s ease;
       }
       .nav1 a:hover::after {
         background-color: rgb(177, 121, 47);
         transform: scaleX(1);
+      }
+      .nav2{
+        border: 2px solid ;
+        background-color: rgb(133, 172, 235);
+        width: 200px;
+      }
+      .nav2 ul {
+        list-style-type: none;
+        text-decoration: none;
+        padding: 0px;
+        margin: 0px;
+
+      }
+      .nav2 li{
+        margin-bottom: 12px;
+      }
+      .nav2 a{
+        text-decoration: none;
+        color: aliceblue;
+        display: block;
+        padding: 10px;
+
       }
     </style>
   </head>
