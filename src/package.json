@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "@tailwindcss/cli": "^4.0.15",
+    "@tailwindcss/vite": "^4.0.15"
+  },
+  "name": "web_programming_programs",
+  "version": "1.0.0",
+  "description": "here i have my practice codes and projects for websites that i made<br>I learnt fullstack web development along with MERN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karthik5033/Fullstack-Web-Development.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karthik5033/Fullstack-Web-Development/issues"
+  },
+  "homepage": "https://github.com/karthik5033/Fullstack-Web-Development#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.0.15"
+  }
+}
