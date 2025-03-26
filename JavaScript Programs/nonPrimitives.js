@@ -3,10 +3,19 @@ let username = {
   isLoggedin: true,
 };
 
+username.firstname = "mr.";
+username.lastname = "karthik";
 
-console.log(username);
-console.log(typeof username);
+// console.log(username.firstname);
+// console.log(username.lastname);
+// console.log(typeof username);
+// console.log( username);
+let today = new Date();
+console.log(today.getDate());
 
 
-console.log();
-
+// array
+    let heroes=["a", "b","c", "d" ]
+    let anotheruser=["hitesh", true]
+    console.log(anotheruser);
+    
