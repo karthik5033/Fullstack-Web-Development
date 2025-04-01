@@ -25,33 +25,44 @@
 // }
 // let orderConfirmation = orderTea();
 
-/*3. Write an arrow function named 'calculateTotal' that
-takes two parameters: 'price' and 'quantity'. the function
- should  return the total cost by multiplying the 'price'
- and 'quantity'.
- Store the result in a variable named 'totalCost'*/
+// /*3. Write an arrow function named 'calculateTotal' that
+// takes two parameters: 'price' and 'quantity'. the function
+//  should  return the total cost by multiplying the 'price'
+//  and 'quantity'.
+//  Store the result in a variable named 'totalCost'*/
 
-const calculateTotal = (price, quantity) => {
-  return price * quantity;
+// const calculateTotal = (price, quantity) => {
+//   return price * quantity;
 
-//   implicit return
-};
-let totalCost=calculateTotal(499,100)
-console.log(totalCost);
+//   //   implicit return
+// };
+// let totalCost = calculateTotal(499, 100);
+// console.log(totalCost);
 
-/*4. Write a function named 'processTeaOrder'that  takes
-another function,'makeTea', as a parameter and calls it with
-the argument "earl grey"
-return teh argument of calling 'makeTea' */
-function makeTea() {
-    
+// /*4. Write a function named 'processTeaOrder'that  takes
+// another function,'makeTea', as a parameter and calls it with
+// the argument "earl grey"
+// return the argument of calling 'makeTea' */
+// function makeTea(typeOfTea) {
+//   return `maketea:${typeOfTea}`;
+// }
+// function processTeaOrder(teaFunction) {
+//   return teaFunction("earl grey");
+// }
+// let order = processTeaOrder(makeTea);
+// console.log(order);
+
+/*5.Write a function named "createTeaMaker "that returns another
+function . the returned function should take one parameter, 'teatype',
+and return a message like "making green tea".
+Store the returned function in a variable named 'teaMaker' and 
+call it with "green tea".*/
+function createTeaMaker() {
+  return function (teaType) {
+    return `Making ${teaType}`;
+  };
 }
-function processTeaOrder(teaFunction) {
-    teaFunction('earl grey')
-}
-processTeaOrder()
-/* */
-/* */
-/* */
-/* */
-/* */
+let teaMaker = createTeaMaker();
+let result = teaMaker("green tea");
+console.log(result);
+
