@@ -141,11 +141,13 @@ class Employee {
   }
   set salery(value){
     if(value<0){
-      console.error("Invalid Salery");
-      
+      console.error("Invalid Salery");}
+      else{
+        this._salery=value;
+      }
       
     }
   }
-}
+
 let emp = new Employee("Alice,50000");
 console.log(emp._salery);
