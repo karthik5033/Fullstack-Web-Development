@@ -1,3 +1,11 @@
-console.log("hello world");
-console.log("hello world");
-console.log("Hello mf");
+class Employee {
+  #name;
+  constructor(name){
+    this.#name=name
+  }
+  
+}
+p1= new Employee("karthik")
+console.log(p1.name);
+
+
