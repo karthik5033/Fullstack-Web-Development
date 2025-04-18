@@ -1,3 +1,2 @@
-console.log("hello world");
-console.log("hello world");console.log("hello world");
-console.log("hello world");
+console.log("this is a dummy code");
+
