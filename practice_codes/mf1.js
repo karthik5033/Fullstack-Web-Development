@@ -26,14 +26,21 @@
 //   const p1=new Employee("mf",20,10)
 //   console.log(p1.details())
 
-// class shapes {
-//   constructor(length, breadth) {
-//     this.length = length;
-//     this.breadth = breadth;
-//   }
-//   area() {
-//     return`the area is ${this.length*this.breadth}`;
-//   }
-// }
-// rectangle = new shapes(12, 4);
-// console.log(rectangle.area());
+class shapes {
+  constructor(length, breadth) {
+    this.length = length;
+    this.breadth = breadth;
+  }
+  area() {
+    return`the area is ${this.length*this.breadth}`;
+  }
+}
+rectangle = new shapes(12, 4);
+console.log(rectangle.area());
+
+
+class square extends shapes{
+
+}
+mf= new square(3,3)
+console.log(mf.area())
