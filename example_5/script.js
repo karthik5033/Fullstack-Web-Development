@@ -14,5 +14,15 @@ document
   .getElementById("highlightFirstCity")
   .addEventListener("click", function () {
     let citieslist = document.getElementById("citiesList");
-    console.log(citieslist.firstElementChild.classList)
+    citieslist.firstElementChild.classList.add("highlight")
   });
+
+
+  // Example 3 
+document.getElementById("changeOrder").
+addEventListener("click",function () {
+ let order=document.getElementById("coffeeType");
+ order.textContent="Espresso";
+ order.style.padding="5px"
+  
+})
