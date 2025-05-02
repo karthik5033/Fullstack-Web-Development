@@ -14,5 +14,5 @@ document
   .getElementById("highlightFirstCity")
   .addEventListener("click", function () {
     let citieslist = document.getElementById("citiesList");
-    cities
+    console.log(citieslist.firstElementChild.classList)
   });
