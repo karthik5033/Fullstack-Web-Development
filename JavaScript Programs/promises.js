@@ -14,4 +14,6 @@ function fetchData() {
 let response = fetchData();
 console.log(response);
 console.log(response.then((data) => console.log(data)));
+console.log(response.catch((error) => console.log(error)));
+
 
