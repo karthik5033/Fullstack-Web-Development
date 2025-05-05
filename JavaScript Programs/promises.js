@@ -1,19 +1,20 @@
 function fetchData() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      let success = true;
+      let success = false;
       if (success) {
         resolve("data fetched successfully");
       } else {
         reject("Error fetching data");
       }
-    }, 3000);
+    }, 1000);
   });
 }
 
-let response = fetchData();
-console.log(response);
-console.log(response.then((data) => console.log(data)));
-console.log(response.catch((error) => console.log(error)));
+fetchData()
+    .then((data)=>console.log(data))
+    .catch((error)=>console.error(error));
+
+
 
 
