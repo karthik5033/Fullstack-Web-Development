@@ -5,3 +5,4 @@ class Employee {
   }
 }
 p1 = new Employee("karthik");
+p1 = new Employee("karthik");
