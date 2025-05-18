@@ -4,5 +4,3 @@ class Employee {
     this.#name = name;
   }
 }
-p1 = new Employee("karthik");
-p1 = new Employee("karthik");
