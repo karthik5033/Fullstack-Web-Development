@@ -1,0 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  background: #0e0e0e;
+  color: #f0f0f0;
+  scroll-behavior: smooth;
+}
+header {
+  position: fixed;
+  width: 100%;
+  background: #121212;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00e5ff;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #f0f0f0;
+  transition: color 0.3s;
+}
+.nav-links a:hover {
+  color: #00e5ff;
+}
+.section {
+  padding: 100px 20px 80px;
+  max-width: 900px;
+  margin: auto;
+}
+h1, h2 {
+  margin-bottom: 20px;
+  color: #00e5ff;
+  font-size: larger;
+}
+ul {
+  list-style-type: square;
+  padding-left: 20px;
+}
+.project {
+  margin-bottom: 20px;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 10px;
+  background-color: #1e1e1e;
+}
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  background: #121212;
+  color: #aaa;
+}
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+/* Gradient animated heading */
+h1, h2 {
+  font-weight: bold;
+  background: linear-gradient(90deg, #00e5ff, #ff00d4);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Typing effect */
+.typing {
+  overflow: hidden;
+  border-right: .15em solid #00e5ff;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .1em;
+  animation: typing 3s steps(30, end), blink-caret 0.8s step-end infinite;
+  max-width: fit-content;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #00e5ff }
+}
+
+/* Paragraph fade-in */
+p {
+  animation: fadeIn 1.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
