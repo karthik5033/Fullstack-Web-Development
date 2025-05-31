@@ -29,3 +29,4 @@ let mc = function(name, age) {
 
 let a = mc("de", 4);
 console.log(a);
+console.log();
