@@ -10,6 +10,7 @@
 // }
 // let object1 = new classname(7, 8);
 // console.log(object1.second_constructor());
+// console.log(object1.arg1);
 
 
 
