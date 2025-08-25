@@ -72,11 +72,20 @@
 
 
 
-function greet(name){
-  setTimeout(function () {
-      console.log("hello"+ name);
+// function greet(name){
+//   setTimeout(function () {
+//       console.log("hello"+ name);
       
-    },5000)
+//     },5000)
     
+// }
+// greet("\tmf")
+
+
+
+class Animal{
+  constructor(name,sound){
+    this.name=name;
+    this.sound=sound
+  }
 }
-greet("\tmf")
