@@ -1,5 +1,3 @@
-const fs = require("fs");
-const filePath = "./tasks.json";
 const loadTasks = () => {
   try {
     const dataBuffer = fs.readFileSync(filePath);
