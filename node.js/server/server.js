@@ -7,7 +7,7 @@ const port = 3000;
 const server = http.createServer((req, res) => {
   const filePath = path.join(
     __dirname,
-    req.url === "/" ? "index.html" : "req.url"
+    req.url === "/" ? "index.html" : req.url
   );
   console.log(filePath);
   
@@ -23,7 +23,7 @@ const server = http.createServer((req, res) => {
   fs.readFile(filePath, (err, content) => {
     if (err) {
       if (err.code === "ENOENT") {
-        res.writeHead(404, { "Content-Type": text / html });
+        res.writeHead(404, { "Content-Type":" text/html "});
         res.end("404:stop watching such stuffs");
       }
     } else {
