@@ -1,0 +1,22 @@
+{
+  "name": "vidtube",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start":"node src/index.js"
+  },
+  "keywords": [],
+  "author": "Karthik K P",
+  "license": "ISC",
+  "description": "youtube project",
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.18.3"
+  }
+}

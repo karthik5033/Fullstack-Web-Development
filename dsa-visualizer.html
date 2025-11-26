@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Algorithm Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        select, button, input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        select {
+            background: white;
+        }
+
+        input[type="number"] {
+            width: 100px;
+        }
+
+        .visualization {
+            min-height: 400px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 5px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .bar {
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .bar.comparing {
+            background: linear-gradient(180deg, #ffa726 0%, #ff7043 100%);
+        }
+
+        .bar.swapping {
+            background: linear-gradient(180deg, #ef5350 0%, #e53935 100%);
+            transform: scale(1.1);
+        }
+
+        .bar.sorted {
+            background: linear-gradient(180deg, #66bb6a 0%, #43a047 100%);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .tree-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .tree-node {
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: absolute;
+            transition: all 0.5s;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tree-node.visited {
+            background: #ffa726;
+            transform: scale(1.2);
+        }
+
+        .tree-node.current {
+            background: #ef5350;
+            transform: scale(1.3);
+        }
+
+        .tree-line {
+            position: absolute;
+            background: #ccc;
+            height: 2px;
+            transform-origin: 0 50%;
+            z-index: -1;
+        }
+
+        .info-panel {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .info-panel h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .info-panel p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .searching {
+            animation: pulse 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 DSA Algorithm Visualizer</h1>
+        
+        <div class="controls">
+            <select id="algorithm">
+                <option value="bubble">Bubble Sort</option>
+                <option value="selection">Selection Sort</option>
+                <option value="insertion">Insertion Sort</option>
+                <option value="quick">Quick Sort</option>
+                <option value="merge">Merge Sort</option>
+                <option value="linear">Linear Search</option>
+                <option value="binary">Binary Search</option>
+                <option value="bfs">BFS Traversal</option>
+                <option value="dfs">DFS Traversal</option>
+            </select>
+            
+            <input type="number" id="arraySize" min="5" max="50" value="20" placeholder="Array Size">
+            <input type="number" id="speed" min="10" max="1000" value="100" placeholder="Speed (ms)">
+            
+            <button id="generate">Generate Array</button>
+            <button id="start">Start Visualization</button>
+            <button id="reset">Reset</button>
+        </div>
+
+        <div id="visualization" class="visualization"></div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>COMPARISONS</h3>
+                <div class="value" id="comparisons">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>SWAPS</h3>
+                <div class="value" id="swaps">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>TIME (MS)</h3>
+                <div class="value" id="time">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>ARRAY SIZE</h3>
+                <div class="value" id="size">20</div>
+            </div>
+        </div>
+
+        <div class="info-panel" id="info">
+            <h3>About Bubble Sort</h3>
+            <p>Bubble Sort repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. Time Complexity: O(n²)</p>
+        </div>
+    </div>
+
+    <script>
+        let array = [];
+        let comparisons = 0;
+        let swaps = 0;
+        let isRunning = false;
+        let speed = 100;
+        let startTime = 0;
+
+        const algorithmInfo = {
+            bubble: {
+                title: "Bubble Sort",
+                description: "Bubble Sort repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. Time Complexity: O(n²)"
+            },
+            selection: {
+                title: "Selection Sort",
+                description: "Selection Sort divides the array into sorted and unsorted regions, repeatedly selecting the minimum element from the unsorted region. Time Complexity: O(n²)"
+            },
+            insertion: {
+                title: "Insertion Sort",
+                description: "Insertion Sort builds the final sorted array one item at a time, inserting each element into its correct position. Time Complexity: O(n²)"
+            },
+            quick: {
+                title: "Quick Sort",
+                description: "Quick Sort picks a pivot element and partitions the array around it, recursively sorting the sub-arrays. Time Complexity: O(n log n) average"
+            },
+            merge: {
+                title: "Merge Sort",
+                description: "Merge Sort divides the array into halves, recursively sorts them, and merges the sorted halves. Time Complexity: O(n log n)"
+            },
+            linear: {
+                title: "Linear Search",
+                description: "Linear Search sequentially checks each element until the target is found or the list ends. Time Complexity: O(n)"
+            },
+            binary: {
+                title: "Binary Search",
+                description: "Binary Search efficiently finds a target in a sorted array by repeatedly dividing the search interval in half. Time Complexity: O(log n)"
+            },
+            bfs: {
+                title: "BFS Traversal",
+                description: "Breadth-First Search explores a tree level by level, visiting all nodes at the current depth before moving deeper. Time Complexity: O(V + E)"
+            },
+            dfs: {
+                title: "DFS Traversal",
+                description: "Depth-First Search explores a tree by going as deep as possible before backtracking. Time Complexity: O(V + E)"
+            }
+        };
+
+        const elements = {
+            visualization: document.getElementById('visualization'),
+            algorithm: document.getElementById('algorithm'),
+            arraySize: document.getElementById('arraySize'),
+            speed: document.getElementById('speed'),
+            generate: document.getElementById('generate'),
+            start: document.getElementById('start'),
+            reset: document.getElementById('reset'),
+            comparisons: document.getElementById('comparisons'),
+            swaps: document.getElementById('swaps'),
+            time: document.getElementById('time'),
+            size: document.getElementById('size'),
+            info: document.getElementById('info')
+        };
+
+        function generateArray() {
+            const size = parseInt(elements.arraySize.value);
+            array = Array.from({length: size}, () => Math.floor(Math.random() * 300) + 20);
+            elements.size.textContent = size;
+            resetStats();
+            displayArray();
+            updateInfo();
+        }
+
+        function displayArray() {
+            elements.visualization.innerHTML = '';
+            const maxHeight = 350;
+            const maxValue = Math.max(...array);
+            
+            array.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${(value / maxValue) * maxHeight}px`;
+                bar.style.width = `${Math.max(800 / array.length - 5, 10)}px`;
+                bar.textContent = array.length <= 30 ? value : '';
+                bar.id = `bar-${index}`;
+                elements.visualization.appendChild(bar);
+            });
+        }
+
+        function resetStats() {
+            comparisons = 0;
+            swaps = 0;
+            startTime = Date.now();
+            elements.comparisons.textContent = '0';
+            elements.swaps.textContent = '0';
+            elements.time.textContent = '0';
+        }
+
+        function updateStats() {
+            elements.comparisons.textContent = comparisons;
+            elements.swaps.textContent = swaps;
+            elements.time.textContent = Date.now() - startTime;
+        }
+
+        function updateInfo() {
+            const algo = elements.algorithm.value;
+            const info = algorithmInfo[algo];
+            elements.info.innerHTML = `
+                <h3>About ${info.title}</h3>
+                <p>${info.description}</p>
+            `;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function visualizeComparison(indices) {
+            indices.forEach(i => {
+                const bar = document.getElementById(`bar-${i}`);
+                if (bar) bar.classList.add('comparing');
+            });
+            comparisons++;
+            updateStats();
+            await sleep(speed);
+        }
+
+        async function visualizeSwap(i, j) {
+            const bars = [document.getElementById(`bar-${i}`), document.getElementById(`bar-${j}`)];
+            bars.forEach(bar => {
+                if (bar) {
+                    bar.classList.remove('comparing');
+                    bar.classList.add('swapping');
+                }
+            });
+            
+            [array[i], array[j]] = [array[j], array[i]];
+            swaps++;
+            updateStats();
+            await sleep(speed);
+            
+            displayArray();
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.bar').forEach(bar => {
+                bar.classList.remove('comparing', 'swapping');
+            });
+        }
+
+        function markSorted(indices) {
+            indices.forEach(i => {
+                const bar = document.getElementById(`bar-${i}`);
+                if (bar) bar.classList.add('sorted');
+            });
+        }
+
+        // Sorting Algorithms
+        async function bubbleSort() {
+            for (let i = 0; i < array.length - 1; i++) {
+                for (let j = 0; j < array.length - i - 1; j++) {
+                    await visualizeComparison([j, j + 1]);
+                    if (array[j] > array[j + 1]) {
+                        await visualizeSwap(j, j + 1);
+                    }
+                    clearHighlights();
+                }
+                markSorted([array.length - i - 1]);
+            }
+            markSorted(Array.from({length: array.length}, (_, i) => i));
+        }
+
+        async function selectionSort() {
+            for (let i = 0; i < array.length - 1; i++) {
+                let minIdx = i;
+                for (let j = i + 1; j < array.length; j++) {
+                    await visualizeComparison([minIdx, j]);
+                    if (array[j] < array[minIdx]) {
+                        minIdx = j;
+                    }
+                    clearHighlights();
+                }
+                if (minIdx !== i) {
+                    await visualizeSwap(i, minIdx);
+                }
+                markSorted([i]);
+            }
+            markSorted(Array.from({length: array.length}, (_, i) => i));
+        }
+
+        async function insertionSort() {
+            markSorted([0]);
+            for (let i = 1; i < array.length; i++) {
+                let j = i;
+                while (j > 0) {
+                    await visualizeComparison([j - 1, j]);
+                    if (array[j - 1] > array[j]) {
+                        await visualizeSwap(j - 1, j);
+                        j--;
+                    } else {
+                        clearHighlights();
+                        break;
+                    }
+                    clearHighlights();
+                }
+                markSorted(Array.from({length: i + 1}, (_, k) => k));
+            }
+        }
+
+        async function quickSort(low = 0, high = array.length - 1) {
+            if (low < high) {
+                const pi = await partition(low, high);
+                await quickSort(low, pi - 1);
+                await quickSort(pi + 1, high);
+            }
+            if (low === 0 && high === array.length - 1) {
+                markSorted(Array.from({length: array.length}, (_, i) => i));
+            }
+        }
+
+        async function partition(low, high) {
+            const pivot = array[high];
+            let i = low - 1;
+            
+            for (let j = low; j < high; j++) {
+                await visualizeComparison([j, high]);
+                if (array[j] < pivot) {
+                    i++;
+                    if (i !== j) {
+                        await visualizeSwap(i, j);
+                    }
+                }
+                clearHighlights();
+            }
+            if (i + 1 !== high) {
+                await visualizeSwap(i + 1, high);
+            }
+            return i + 1;
+        }
+
+        async function mergeSort(start = 0, end = array.length - 1) {
+            if (start < end) {
+                const mid = Math.floor((start + end) / 2);
+                await mergeSort(start, mid);
+                await mergeSort(mid + 1, end);
+                await merge(start, mid, end);
+            }
+            if (start === 0 && end === array.length - 1) {
+                markSorted(Array.from({length: array.length}, (_, i) => i));
+            }
+        }
+
+        async function merge(start, mid, end) {
+            const left = array.slice(start, mid + 1);
+            const right = array.slice(mid + 1, end + 1);
+            let i = 0, j = 0, k = start;
+            
+            while (i < left.length && j < right.length) {
+                await visualizeComparison([k]);
+                if (left[i] <= right[j]) {
+                    array[k] = left[i];
+                    i++;
+                } else {
+                    array[k] = right[j];
+                    j++;
+                }
+                swaps++;
+                displayArray();
+                await sleep(speed);
+                k++;
+            }
+            
+            while (i < left.length) {
+                array[k] = left[i];
+                displayArray();
+                await sleep(speed);
+                i++;
+                k++;
+            }
+            
+            while (j < right.length) {
+                array[k] = right[j];
+                displayArray();
+                await sleep(speed);
+                j++;
+                k++;
+            }
+            clearHighlights();
+        }
+
+        async function linearSearch() {
+            const target = array[Math.floor(Math.random() * array.length)];
+            alert(`Searching for: ${target}`);
+            
+            for (let i = 0; i < array.length; i++) {
+                await visualizeComparison([i]);
+                if (array[i] === target) {
+                    markSorted([i]);
+                    alert(`Found ${target} at index ${i}`);
+                    return;
+                }
+                clearHighlights();
+            }
+            alert(`${target} not found`);
+        }
+
+        async function binarySearch() {
+            array.sort((a, b) => a - b);
+            displayArray();
+            const target = array[Math.floor(Math.random() * array.length)];
+            alert(`Searching for: ${target}`);
+            
+            let left = 0, right = array.length - 1;
+            
+            while (left <= right) {
+                const mid = Math.floor((left + right) / 2);
+                await visualizeComparison([mid]);
+                
+                if (array[mid] === target) {
+                    markSorted([mid]);
+                    alert(`Found ${target} at index ${mid}`);
+                    return;
+                } else if (array[mid] < target) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+                clearHighlights();
+            }
+            alert(`${target} not found`);
+        }
+
+        async function visualizeTreeTraversal(type) {
+            // Simple binary tree visualization
+            elements.visualization.innerHTML = '<div class="tree-container" id="tree"></div>';
+            const treeContainer = document.getElementById('tree');
+            
+            const nodes = array.slice(0, Math.min(15, array.length));
+            alert(`Traversing ${type.toUpperCase()} on tree with values: ${nodes.join(', ')}`);
+            
+            // Note: Full tree visualization would require more complex positioning
+            // This is a simplified version
+            for (let i = 0; i < nodes.length; i++) {
+                comparisons++;
+                updateStats();
+                await sleep(speed * 2);
+            }
+            
+            alert(`${type.toUpperCase()} traversal complete!`);
+        }
+
+        async function startVisualization() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            elements.start.disabled = true;
+            elements.generate.disabled = true;
+            resetStats();
+            
+            const algo = elements.algorithm.value;
+            speed = parseInt(elements.speed.value);
+            
+            try {
+                switch(algo) {
+                    case 'bubble': await bubbleSort(); break;
+                    case 'selection': await selectionSort(); break;
+                    case 'insertion': await insertionSort(); break;
+                    case 'quick': await quickSort(); break;
+                    case 'merge': await mergeSort(); break;
+                    case 'linear': await linearSearch(); break;
+                    case 'binary': await binarySearch(); break;
+                    case 'bfs': await visualizeTreeTraversal('bfs'); break;
+                    case 'dfs': await visualizeTreeTraversal('dfs'); break;
+                }
+            } catch (error) {
+                console.error(error);
+            }
+            
+            isRunning = false;
+            elements.start.disabled = false;
+            elements.generate.disabled = false;
+        }
+
+        // Event Listeners
+        elements.generate.addEventListener('click', generateArray);
+        elements.start.addEventListener('click', startVisualization);
+        elements.reset.addEventListener('click', () => {
+            generateArray();
+        });
+        elements.algorithm.addEventListener('change', updateInfo);
+
+        // Initialize
+        generateArray();
+    </script>
+</body>
+</html>

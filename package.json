@@ -5,6 +5,7 @@
     "detect-libc": "^2.0.3",
     "enhanced-resolve": "^5.18.1",
     "esbuild": "^0.25.1",
+    "express": "^5.1.0",
     "fill-range": "^7.1.1",
     "graceful-fs": "^4.2.11",
     "is-extglob": "^2.1.1",
@@ -23,7 +24,7 @@
     "source-map-js": "^1.2.1",
     "tapable": "^2.2.1",
     "to-regex-range": "^5.0.1",
-    "vite": "^6.2.3"
+    "vite": "^7.1.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
